@@ -14,5 +14,7 @@
     {% else %}
         <p>No polls are available.</p>
     {% endif %}
+
+    <a href="{% url 'polls:last_result_page' %}">결과확인</a>
 </body>
 </html>
