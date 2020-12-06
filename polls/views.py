@@ -32,18 +32,49 @@ def detail(request, question_id):
 #     return HttpResponse("results of question %s" %question_id)
 
 #global cho_id
+
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     votes = []
+    global last_result
+    last_result = 0
+    result = 0
+    i = 0
     for cho in question.choice_set.all():
         votes.append(cho.votes)
-        #result = {cho: cho.votes}
-        # for i in cho.votes[i]:
-        #     if(i >= 1):
-    print(votes)
+        #a = votes.index(1)
+        for i in range(0,votes[i]):
+            if (votes[i] >= 1):
+                if(i == 0):
+                    result += 1
+                else:
+                    result -= 1
+            else:
+                print('투표 안 함')
+            i += 1
+        # if (a is None):
+        #     print('votes를 리셋하세요')
+        # if (a == 0):
+        #     result += 1
+        # if (a == 1):
+        #     result -= 1
+        last_result += result
+    print('choice id : ', cho.id)
+    print('votes 값: ', votes)
+    #print('choice 인덱스: ', i)
+    print('result: ', result)
+    print(last_result)
 
     # votes[0] 하면 첫번째 vote 숫자값 들어있음
     return render(request, 'polls/results.html', {'question': question})
+
+def last_result_page(request):
+    global last_result
+    if (last_result>=2):
+        return render(request, 'polls/last_result_happy.html')
+    if (last_result <=0):
+        return render(request,'polls/last_result_bad.html')
+
 
 # def vote(request, question_id):
 #     return HttpResponse("you are voting on question %s"% question_id)
